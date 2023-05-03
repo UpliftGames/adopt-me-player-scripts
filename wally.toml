@@ -1,9 +1,9 @@
 [package]
-name = "uplifttansen/adopt-me-player-scripts"
+name = "upliftgames/adopt-me-playermodule"
 version = "0.0.1"
-description = "https://github.com/UpliftTansen/adopt-me-player-scripts"
-registry = "https://github.com/UpliftGames/wally-index"
+description = "https://github.com/UpliftTansen/adopt-me-playermodule"
+registry = "https://github.com/UpliftGames/wally-internal-index"
 realm = "shared"
 
 [dependencies]
-PlayerModule = "upliftgames/playermodule@569.2.5690484"
+PlayerModule = "upliftgames/playermodule@572.0.5720484"

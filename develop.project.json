@@ -1,0 +1,30 @@
+{
+	"name": "adopt-me-playermodule",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"Packages": {
+				"$path": "Packages",
+				"AdoptMePlayerModule": {
+					"$path": "src"
+				}
+			}
+		},
+		"StarterPlayer": {
+			"$className": "StarterPlayer",
+			"StarterPlayerScripts": {
+				"$className": "StarterPlayerScripts",
+				"PlayerScriptsLoader": {
+					"$path": "test/PlayerScriptsLoader.client.lua"
+				}
+			}
+		},
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"ReplacePlayerModule": {
+				"$path": "test/ReplacePlayerModule.server.lua"
+			}
+		}
+	}
+}

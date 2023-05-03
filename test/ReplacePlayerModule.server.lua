@@ -1,0 +1,3 @@
+local AdoptMePlayerModulePackage = require(game.ReplicatedStorage.Packages.AdoptMePlayerModule)
+
+AdoptMePlayerModulePackage.replace(AdoptMePlayerModulePackage.getCopy())
