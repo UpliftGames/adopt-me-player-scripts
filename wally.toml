@@ -1,6 +1,6 @@
 [package]
 name = "upliftgames/adopt-me-playermodule"
-version = "0.0.1"
+version = "0.0.2"
 description = "https://github.com/UpliftTansen/adopt-me-playermodule"
 registry = "https://github.com/UpliftGames/wally-internal-index"
 realm = "shared"
