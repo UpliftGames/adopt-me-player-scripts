@@ -32,7 +32,7 @@ function module.apply(PlayerModule: ModuleScript)
 			vehicleCameraConfig.autocorrectDelay = defaultAutocorrectDelay
 		end
 
-		vehicleCameraUpdate(self, ...)
+		return vehicleCameraUpdate(self, ...)
 	end
 
 end
