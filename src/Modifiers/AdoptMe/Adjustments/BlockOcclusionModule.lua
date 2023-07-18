@@ -23,7 +23,7 @@ function module.apply(PlayerModule: ModuleScript)
     local oldUpdate = cameraObject.Update
 
     function cameraObject:Update(dt)
-        oldUpdate(dt)
+        oldUpdate(self,dt)
 
         if not self.activeCameraController and self.activeOcclusionModule then
             self.activeOcclusionModule:Update(dt, game.Workspace.CurrentCamera.CFrame, game.Workspace.CurrentCamera.Focus)
