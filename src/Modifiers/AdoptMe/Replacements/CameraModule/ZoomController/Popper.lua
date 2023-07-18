@@ -122,21 +122,21 @@ end)
 local function canOcclude(part)
 	local overrideCollidesWithCamera = part:GetAttribute("OverrideCollidesWithCamera")
 
-	print(part,overrideCollidesWithCamera)
-
 	if typeof(overrideCollidesWithCamera) == "boolean" then
 		return overrideCollidesWithCamera
 	end
+
 	-- Occluders must be:
 	-- 1. Opaque
 	-- 2. Interactable
 	-- 3. Not in the same assembly as the subject
 
-	return
+	return (
 		getTotalTransparency(part) < 0.25 and
 		part.CanCollide and
 		subjectRoot ~= (part:GetRootPart() or part) and
 		not part:IsA("TrussPart")
+	)
 end
 
 -- Offsets for the volume visibility test
@@ -347,5 +347,3 @@ local function Popper(focus, targetDist, focusExtrapolation)
 end
 
 return Popper
-
---S:DLKFJL:KDSF:LKSDJFLKSDJFL:KSDJFL:KSDJF

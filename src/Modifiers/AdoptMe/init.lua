@@ -1,34 +1,43 @@
-local ReplaceFiles = script:WaitForChild("ReplaceFiles")
+--!strict
 
-local function get_instance_path(instance)
-    local path = {}
-	table.insert(path, 1, instance.Name)
-    while instance.Parent ~= nil and instance.Name ~= "CameraModule" and instance.Name ~= "ControlModule" do
-        instance = instance.Parent
-		table.insert(path, 1, instance.Name)
-    end
-    return path
+local function searchAndReplace(parent: Instance, replacements: {Instance})
+	for _, replacement in replacements do
+		local found = parent:FindFirstChild(replacement.Name)
+		if found then
+			searchAndReplace(found, replacement:GetChildren())
+
+			if not replacement:IsA("Folder") then
+				local copy = replacement:Clone()
+				copy:ClearAllChildren()
+				copy.Parent = found.Parent
+
+				for _, child in found:GetChildren() do
+					child.Parent = copy
+				end
+
+				found:Destroy()
+			end
+		end
+	end
 end
 
-local filesToReplace = {}
-local function findFilesToReplace(parent, leaves)
-    for _, child in ipairs(parent:GetChildren()) do
-        if #child:GetChildren() == 0 then
-            table.insert(leaves, {file=child, path=get_instance_path(child)})
-        else
-            findFilesToReplace(child, leaves)
-        end
-    end
-end
-findFilesToReplace(ReplaceFiles, filesToReplace)
+return function(PlayerModule: ModuleScript)
+	local replacements = script:WaitForChild("Replacements")
+	searchAndReplace(PlayerModule, replacements:GetChildren())
 
-return function(PlayerModule)
-	-- for _, file in ipairs(filesToReplace) do
-	-- 	local target = PlayerModule.CameraModule:FindFirstChild(file.Name, true) or PlayerModule.ControlModule:FindFirstChild(file.Name, true)
-	-- 	if target then
-	-- 		local targetParent = target.Parent
-	-- 		target:Destroy()
-	-- 		file:Clone().Parent = targetParent
-	-- 	end
-	-- end
+	local adjustmentsByPriority = {}
+	local adjustmentsFolder = script:WaitForChild("Fixes")
+	
+	for _, adjustmentModule in adjustmentsFolder:GetChildren() do
+		local result = require(adjustmentModule)
+		table.insert(adjustmentsByPriority, result)
+	end
+
+	table.sort(adjustmentsByPriority, function(a, b)
+		return a.priority < b.priority
+	end)
+
+	for _, fix in adjustmentsByPriority do
+		fix.apply(PlayerModule)
+	end
 end

@@ -24,5 +24,6 @@ function module.getCopy(): ModuleScript
 end
 
 module.replace = PlayerModulePackage.replace
+module.getVersionInfo = PlayerModulePackage.getVersionInfo
 
 return module
