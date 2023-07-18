@@ -4,6 +4,28 @@
 -- Prevents your camera from clipping through walls.
 --------------------------------------------------------------------------------
 
+local function canOcclude(part, getTotalTransparencyFunc, subjectRoot)
+	local overrideCollidesWithCamera = part:GetAttribute("OverrideCollidesWithCamera")
+
+	if typeof(overrideCollidesWithCamera) == "boolean" then
+		return overrideCollidesWithCamera
+	end
+
+	-- Occluders must be:
+	-- 1. Opaque
+	-- 2. Interactable
+	-- 3. Not in the same assembly as the subject
+
+	return (
+		getTotalTransparencyFunc(part) < 0.25 and
+		part.CanCollide and
+		subjectRoot ~= (part:GetRootPart() or part) and
+		not part:IsA("TrussPart")
+	)
+end
+
+--------------
+
 local Players = game:GetService("Players")
 
 local camera = game.Workspace.CurrentCamera
@@ -119,26 +141,6 @@ camera:GetPropertyChangedSignal("CameraSubject"):Connect(function()
 	end
 end)
 
-local function canOcclude(part)
-	local overrideCollidesWithCamera = part:GetAttribute("OverrideCollidesWithCamera")
-
-	if typeof(overrideCollidesWithCamera) == "boolean" then
-		return overrideCollidesWithCamera
-	end
-
-	-- Occluders must be:
-	-- 1. Opaque
-	-- 2. Interactable
-	-- 3. Not in the same assembly as the subject
-
-	return (
-		getTotalTransparency(part) < 0.25 and
-		part.CanCollide and
-		subjectRoot ~= (part:GetRootPart() or part) and
-		not part:IsA("TrussPart")
-	)
-end
-
 -- Offsets for the volume visibility test
 local SCAN_SAMPLE_OFFSETS = {
 	Vector2.new( 0.4, 0.0),
@@ -198,7 +200,7 @@ local function queryPoint(origin, unitDir, dist, lastPos)
 			-- forces the current iteration into a hard limit to cap the number of raycasts
 			local earlyAbort = numPierced >= QUERY_POINT_CAST_LIMIT
 			
-			if canOcclude(entryPart) or earlyAbort then
+			if canOcclude(entryPart, getTotalTransparency, subjectRoot) or earlyAbort then
 				local wl = {entryPart}
 				local exitPart = workspace:FindPartOnRayWithWhitelist(ray(target, entryPos - target), wl, true)
 

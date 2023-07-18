@@ -3,6 +3,12 @@
 	2018 Camera Update - AllYourBlox
 --]]
 
+--[[
+	Modified for Adopt Me! 
+		- TeardownTransparency(), SetupTransparency(), Update(): handling ImageLabel since it has a different transparency property name
+		- Update(): handling transparency scaling for babies team (team code below in this section) 
+]]--
+
 local team = "N/A"
 spawn(function()
 	local load = require(game.ReplicatedStorage:WaitForChild("Fsys")).load
@@ -13,6 +19,8 @@ spawn(function()
 		wait(.3)
 	end
 end)
+
+--------------
 
 local MAX_TWEEN_RATE = 2.8 -- per second
 
