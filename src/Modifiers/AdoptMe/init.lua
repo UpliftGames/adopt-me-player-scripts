@@ -26,7 +26,7 @@ return function(PlayerModule: ModuleScript)
 	searchAndReplace(PlayerModule, replacements:GetChildren())
 
 	local adjustmentsByPriority = {}
-	local adjustmentsFolder = script:WaitForChild("Fixes")
+	local adjustmentsFolder = script:WaitForChild("Adjustments")
 	
 	for _, adjustmentModule in adjustmentsFolder:GetChildren() do
 		local result = require(adjustmentModule)

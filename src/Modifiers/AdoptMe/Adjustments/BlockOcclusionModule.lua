@@ -6,8 +6,9 @@ module.priority = 1
 
 function module.apply(PlayerModule: ModuleScript)
     local myPlayer = game:GetService("Players").LocalPlayer
-    local cameraObject = require(PlayerModule:WaitForChild("CameraModule"))
-    local CameraInput = require(cameraObject:WaitForChild("CameraInput"))
+    local cameraModule = PlayerModule:WaitForChild("CameraModule")
+    local cameraObject = require(cameraModule)
+    local CameraInput = require(cameraModule:WaitForChild("CameraInput"))
 
     myPlayer.ChildAdded:connect(function(obj)
 		if obj.Name ~= "invisicam" then return end
