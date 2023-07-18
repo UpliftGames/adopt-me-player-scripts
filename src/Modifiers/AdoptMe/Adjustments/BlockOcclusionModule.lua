@@ -39,15 +39,15 @@ function module.apply(PlayerModule: ModuleScript)
             -- Update to character local transparency as needed based on camera-to-subject distance
             if self.activeTransparencyController then
                 self.activeTransparencyController:Update(dt)
-            else
-                if self.activeOcclusionModule then
-                    self.activeOcclusionModule:Update(dt, game.Workspace.CurrentCamera.CFrame, game.Workspace.CurrentCamera.Focus)
-            
-                end
             end
 
             if CameraInput.getInputEnabled() then
                 CameraInput.resetInputForFrameEnd()
+            end
+        else
+            if self.activeOcclusionModule then
+                self.activeOcclusionModule:Update(dt, game.Workspace.CurrentCamera.CFrame, game.Workspace.CurrentCamera.Focus)
+        
             end
         end
     end
