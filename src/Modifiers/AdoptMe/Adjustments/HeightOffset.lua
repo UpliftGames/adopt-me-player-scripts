@@ -15,7 +15,9 @@ local module = {}
 module.priority = 2
 
 function module.apply(PlayerModule: ModuleScript)
-	local baseCamera = require(PlayerModule:WaitForChild("CameraModule"):WaitForChild("BaseCamera"))
+	local cameraModule = PlayerModule:WaitForChild("CameraModule")
+	local baseCamera = require(cameraModule:WaitForChild("BaseCamera"))
+	local vehicleCamera = require(cameraModule:WaitForChild("VehicleCamera"))
 
 	function baseCamera:GetSubjectPosition()
 		local result = self.lastSubjectPosition
@@ -95,6 +97,25 @@ function module.apply(PlayerModule: ModuleScript)
 		self.lastSubjectPosition = result
 	
 		return result
+	end
+
+	local oldGetThirdPersonLocalOffset = vehicleCamera._GetThirdPersonLocalOffset
+
+	function vehicleCamera:_GetThirdPersonLocalOffset()
+		local camera = workspace.CurrentCamera
+		local cameraSubject = camera and camera.CameraSubject
+
+		if cameraSubject and cameraSubject:IsA("VehicleSeat") then
+			local offset = SEAT_OFFSET
+
+			if cameraSubject:FindFirstChild("CameraOffset") then
+				offset = cameraSubject.CameraOffset.Value
+			end
+
+			return offset
+		end
+
+		return oldGetThirdPersonLocalOffset(self)
 	end
 end
 
