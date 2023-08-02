@@ -11,6 +11,8 @@ function module.apply(PlayerModule: ModuleScript)
 	local vehicleCameraConfig = require(vehicleCameraModule:WaitForChild("VehicleCameraConfig"))
 
 	local defaultAutocorrectDelay = vehicleCameraConfig.autocorrectDelay
+	local defaultPitchStiffness = vehicleCameraConfig.pitchStiffness
+	local defaultYawStiffness = vehicleCameraConfig.yawStiffness
 	local vehicleCameraUpdate = vehicleCamera.Update
 
 	function vehicleCamera:Update(...)
@@ -28,8 +30,12 @@ function module.apply(PlayerModule: ModuleScript)
 
 		if vehicleFollowCameraOverride then
 			vehicleCameraConfig.autocorrectDelay = math.huge
+			vehicleCameraConfig.pitchStiffness = 0
+			vehicleCameraConfig.yawStiffness = 0
 		else
 			vehicleCameraConfig.autocorrectDelay = defaultAutocorrectDelay
+			vehicleCameraConfig.pitchStiffness = defaultPitchStiffness
+			vehicleCameraConfig.yawStiffness = defaultYawStiffness
 		end
 
 		return vehicleCameraUpdate(self, ...)
