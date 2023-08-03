@@ -6,9 +6,10 @@ module.priority = 1
 
 function module.apply(PlayerModule: ModuleScript)
 	local cameraModule = PlayerModule:WaitForChild("CameraModule")
-	local vehicleCamera = require(cameraModule:WaitForChild("VehicleCamera"))
-    local VehicleCameraCore = require(cameraModule:WaitForChild("VehicleCamera"):WaitForChild("VehicleCameraCore"))
-    local VehicleCameraConfig = require(cameraModule:WaitForChild("VehicleCamera"):WaitForChild("VehicleCameraConfig"))
+    local vehicleModule = cameraModule:WaitForChild("VehicleCamera")
+	local vehicleCamera = require(vehicleModule)
+    local VehicleCameraCore = require(vehicleModule:WaitForChild("VehicleCameraCore"))
+    local VehicleCameraConfig = require(vehicleModule:WaitForChild("VehicleCameraConfig"))
     local CameraUtils = require(cameraModule:WaitForChild("CameraUtils"))
 
     local Spring = CameraUtils.Spring
